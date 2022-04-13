@@ -1,0 +1,86 @@
+/* Fonte: http://anobiblico.blogspot.com.br/2015/04/genesis-arvore-genealogica-de-abraao.html */
+
+digraph abraao {
+	/* Genesis 12-25 */
+	a [label="Abraão",shape=box,style=filled,color=".7 .3 1.0"];
+	b [label="Hagar"];
+	c [label="Sara"];
+
+	/* Genesis 16-35 */
+	d [label="Ismael",shape=box];
+	e [label="Isaque",shape=box];
+	f [label="Rebeca"];
+
+	a -> d;
+	a -> e;
+	b -> d;
+	c -> e;
+
+	/* Genesis 25-49 */
+	g [label="Esaú",shape=box];
+	h [label="Jacó",shape=box,color=blue,fontcolor=blue];
+	i [label="Lia",color=red,fontcolor=red];
+	j [label="Zilpa"];
+	l [label="Raquel"];
+	m [label="Bila"];	
+
+	e -> g;
+	e -> h;
+	f -> g;
+	f -> h;
+
+	/* Genesis 29-50  */
+	n [label="Rúbem",shape=box];
+	o [label="Simeão",shape=box];
+	p [label="Levi",shape=box];
+	q [label="Judá",shape=box];
+	r [label="Issacar",shape=box];
+	s [label="Zebulon",shape=box];
+
+	t [label="Gade",shape=box];
+	u [label="Aser",shape=box];
+
+	v [label="José",shape=box];
+	x [label="Benjamim",shape=box];
+
+	y [label="Dã",shape=box];
+	z [label="Naftali",shape=box];
+
+	i -> n [color=red];
+	i -> o [color=red];
+	i -> p [color=red];
+	i -> q [color=red];
+	i -> r [color=red];
+	i -> s [color=red];	
+	h -> n [color=blue];
+	h -> o [color=blue];
+	h -> p [color=blue];
+	h -> q [color=blue];
+	h -> r [color=blue];
+	h -> s [color=blue];
+
+	j -> t;
+	j -> u;
+	h -> t [color=blue];
+	h -> u [color=blue];
+
+	l -> v;
+	l -> x;
+	h -> v [color=blue];
+	h -> x [color=blue];
+
+	m -> y;
+	m -> z;
+	h -> y [color=blue];
+	h -> z [color=blue];
+	
+	/* Genesis 41 */
+	aa [label="Manassés",shape=box];
+	ab [label="Efrain",shape=box];
+	ac [label="Azenate"];
+
+	ac -> aa;
+	ac -> ab;
+	v -> aa;
+	v -> ab;
+}

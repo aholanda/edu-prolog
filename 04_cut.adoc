@@ -1,0 +1,84 @@
+:sectnums:
+
+== _Cut_ (Corte)
+
+Para aprender o corte em Prolog, necessitaremos dos arquivos:
+
+1. {bookurl}/biblioteca.pro[biblioteca.pro];
+2. {bookurl}/max.pro[max.pro];
+3. {bookurl}/animal.pro[animal.pro].
+
+O _cut_, escrito como `!`, é um objetivo interrompe o _backtracking_
+que seria desnecessário para o atendimento da regra. Ele elimina
+computações desnecessárias e melhora a performance do programa.
+
+No exemplo a seguir, usamos o _cut_ para inserir as seguintes regras
+referentes a uma biblioteca: se uma pessoa estiver em atraso na data
+de devolução de um livro emprestado, só poderá utilizar o serviço de
+consulta, enquanto que os serviços de empréstimo, empréstimo entre
+biblioteca e reservas de livros ficarão bloqueados. Adicionamos uma
+base dados de clientes e seus hábitos de empréstimos.
+
+[source,prolog]
+----
+include::src/biblioteca.pro[]
+----
+
+Ao realizarmos a pergunta:
+
+[source,prolog]
+----
+?- cliente(X),serviço(X,Y).
+----
+
+Ao satisfazer a regra `livro_devido()`, o `cut` fará efeito, sendo
+ sempre verdadeiro, e fechando a execução da regra `serviço()` neste
+ ponto, ou seja, qualquer outra regra para `serviço()` não será
+ executada. Serão executadas somente, os objetivos verdadeiros após o
+ `cut`.
+
+Sendo assim, se uma pessoa satisfizer a regra `livro_devido()`, só a
+regra `serviço_básico()` pode ser verificada para esta pessoa. Caso
+contrário, se `livro_devido()` for falso, a segunda regra `serviço()`
+será executada, pois o `cut` não foi alcançado. Esta regra permite que
+a pessoa esteja apta para utilizar todos os serviços da biblioteca.
+
+A seguir, um exemplo em que o `cut` é usado para interromper a avaliação
+de regras após a obtenção do resultado desejado:
+
+[source,prolog]
+----
+include::src/max.pro[]
+----
+
+Ao perguntarmos
+
+[source,prolog]
+----
+?- max(10,11,X).
+X = 11.
+
+----
+
+O `cut` garante que a primeira regra é fechada, pois, `X <= Y`, interrompendo o
+_backtracking_,  e se perguntarmos
+
+[source,prolog]
+----
+?- max(22,11,X).
+X = 22.
+
+----
+
+a segunda regra será executada.
+
+:sectnums!:
+
+=== Exercício
+
+1) Teste o seguinte programa, analisando o efeito do _cut_:
+
+[source,prolog]
+----
+include::src/animal.pro[]
+----

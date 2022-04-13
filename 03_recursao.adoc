@@ -1,0 +1,144 @@
+:sectnums: 
+
+// Fonte: https://www.doc.gold.ac.uk/~mas02gw/prolog_tutorial/prologpages/recursion.html
+
+== Recursão
+
+Em Prolog, os predicados podem ser definidos recursivamente. A grosso
+modo, um predicado é definido recursivamente quando uma ou mais regras
+em sua definição refere-se ao predicado.
+
+O exemplo extraído do arquivo {bookurl}/recursao.pro[recursao.pro]
+contem um predicado `ancestral` definido recursivamente:
+
+[source,prolog]          
+----                     
+include::src/recursao.pro[]
+
+?- ancestral(paulo,nelson).
+true .
+
+----
+
+A recursão em Prolog permite definirmos predicados gerais e
+ compactos. A definição de `ancestral` possui uma definição
+ não-recursiva utilizada como critério de parada na busca, e uma
+ definição recursiva para percorrer as gerações. Sem o uso da
+ recursividade, as gerações teriam que ser percorridas explicitamente,
+ torna a definição extensa, fora o fato de que teríamos que definir
+ níveis (pai, avô, bisavô) para a realização da busca.
+
+A Figura a seguir mostra como Prolog interpreta a consulta
+`ancestral(paulo,nelson)`.
+
+[.center]
+--
+[[img-recursao]]
+.Busca recursiva da consulta `ancestral(paulo,nelson)`.
+image::recursao.svg[Recursão,600,align="center"]
+--
+
+Outro exemplo do uso de recursão está no cálculo do fatorial. O
+arquivo {bookurl}/fatorial.pro[recursao.pro] contem os seguinte
+predicados:
+
+[source,prolog]          
+----                     
+include::src/fatorial.pro[]
+----
+
+Para calcular o fatorial do número `3`, com o valor do fatorial vinculado
+à variável `F`, executamos
+
+[source,prolog]          
+----                     
+?-  fatorial(3,F).  
+F=6 .
+
+----
+
+Podemos verificar se o número `6` é o resultado do fatorial do número `3` pela
+execução de
+
+[source,prolog]          
+----                     
+?-  fatorial(3,6).  
+true .
+
+----
+
+// TODO: descrever melhor
+A Figura a seguir mostra a árvore gerada para a avaliação da cláusula
+`fatorial(3,6)`.
+
+[.center]
+--
+[[img-fatorial]]
+.Avaliação da cláusula `fatorial(3,6)`.
+image::fatorial.svg[Fatorial,600,align="center"]
+--
+
+O comando `trace.` pode ser usado para habilitar o rastreamento das
+expressões executadas na avaliação de uma cláusula. Por exemplo, a
+cláusula `fatorial(3,6)` teria a seguinte saída no SWI-Prolog:
+
+[source,prolog]          
+----                     
+
+?- trace.
+true.
+
+[trace]  ?- fatorial(3,6).
+   Call: (7) fatorial(3, 6) ? creep
+   Call: (8) 3>0 ? creep
+   Exit: (8) 3>0 ? creep
+   Call: (8) _G1510 is 3+ -1 ? creep
+   Exit: (8) 2 is 3+ -1 ? creep
+   Call: (8) fatorial(2, _G1511) ? creep
+   Call: (9) 2>0 ? creep
+   Exit: (9) 2>0 ? creep
+   Call: (9) _G1513 is 2+ -1 ? creep
+   Exit: (9) 1 is 2+ -1 ? creep
+   Call: (9) fatorial(1, _G1514) ? creep
+   Call: (10) 1>0 ? creep
+   Exit: (10) 1>0 ? creep
+   Call: (10) _G1516 is 1+ -1 ? creep
+   Exit: (10) 0 is 1+ -1 ? creep
+   Call: (10) fatorial(0, _G1517) ? creep
+   Exit: (10) fatorial(0, 1) ? creep
+   Call: (10) _G1519 is 1*1 ? creep
+   Exit: (10) 1 is 1*1 ? creep
+   Exit: (9) fatorial(1, 1) ? creep
+   Call: (9) _G1522 is 2*1 ? creep
+   Exit: (9) 2 is 2*1 ? creep
+   Exit: (8) fatorial(2, 2) ? creep
+   Call: (8) 6 is 3*2 ? creep
+   Exit: (8) 6 is 3*2 ? creep
+   Exit: (7) fatorial(3, 6) ? creep
+true .
+
+[trace]  ?- notrace.
+true.
+
+----
+
+O comando `notrace.` desabilita o rastreio das expressões executadas.
+
+:sectnums!:
+
+=== Exercícios
+
+1) Dados os fatos
+
+[source]
+----
+Beto é menor que Marcos.
+Marcos é menor que João.
+João é menor que Jorge.
+----
+
+Escreva um predicado recursivo que verifique se Beto é menor que Jorge.
+
+2) Construa a árvore de avaliação para as cláusulas `fatorial(-3,1)` e
+`fatorial(3,2)`.
+

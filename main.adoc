@@ -1,0 +1,41 @@
+= Prolog
+Adriano J. Holanda
+:toc: left
+:source-highlighter: pygments
+:figure-caption: Figura
+:toc-title: Sumário
+:bookurl: http://book.holanda.xyz/prolog
+:swiprolog: http://www.swi-prolog.org/[SWI-Prolog]
+:srcdir: src
+
+:sectnums!:
+
+== Introdução
+
+Prolog é uma linguagem de propósito geral projetada por Alain
+Colmerauer no início da década de 1970. Prolog é uma linguagem
+declarativa, e as expressões lógicas são representadas em termos de
+fatos e regras.
+
+Prolog tem sido usada para desenvolvimento de sistemas em diversas
+áreas, dentre elas: inteligência artificial, sistemas especialistas,
+banco de dados relacional, processamento de linguagem natural e
+sistemas de prova automatizada de teoremas.
+
+include::01_sintaxe_semantica.adoc[]
+include::02_estrutura_dados.adoc[]
+include::03_recursao.adoc[]
+include::04_cut.adoc[]
+include::05_entrada-saida.adoc[]
+include::06_aplicacoes.adoc[]
+
+:sectnums!:
+
+== Referências
+
+1. https://www.amazon.com.br/Programming-Prolog-Using-ISO-Standard/dp/3540006788[William F. Clocksin, Christopher S. Mellish. _Programming_ _in_ _Prolog_: _Using_ _the_ _ISO_ _Standard_, 5^a^ edição. Springer, 2003.]
+2. Tamsin Treasure-Jones. https://www.doc.gold.ac.uk/~mas02gw/prolog_tutorial/prologpages/index.html[Introduction to Prolog].
+3. Patrick Blackburn, Johan Bos, Kristina Striegnitz. http://lpn.swi-prolog.org/lpnpage.php?pageid=top[Learn Prolog Now!]
+4. J. R. Fisher. https://www.cpp.edu/~jrfisher/www/prolog_tutorial/contents.html[prolog :- tutorial].
+5. Ivan Bratko. Prolog Programming for Artificial Intelligence (3rd edition). Addison-Wesley, 2001.
+6. Leon Sterling, Ehud Shapiro. The Art of Prolog: Advanced Programming Techniques. MIT Press, 1986.

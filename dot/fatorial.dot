@@ -1,0 +1,39 @@
+digraph recursion {
+	size ="4,4";
+	node [shape=box];
+	a [label="fatorial(3,6)."];
+	b [label="3>0."];
+	c [label="2 is 3-1."];
+	d [label="fatorial(2,2)."];
+	e [label="6 is 3*2."];
+
+	f [label="2>0."];
+	g [label="1 is 2-1."];
+	h [label="fatorial(1,1)."];
+	i [label="2 is 2*1."];
+
+	j [label="1>0."];
+	l [label="0 is 1-1."];
+	m [label="fatorial(0,1)."];
+	n [label="1 is 1*1."];
+
+	o [label="true",style=filled,color="aquamarine"];
+	
+	a -> b;
+	a -> c;
+	a -> d;
+	a -> e;
+
+	d -> f;
+	d -> g;
+	d -> h;
+	d -> i;
+
+	h -> j;
+	h -> l;
+	h -> m;
+	h -> n;
+
+	m -> o;
+}
+	

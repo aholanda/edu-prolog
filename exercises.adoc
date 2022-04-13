@@ -1,0 +1,153 @@
+= 2^a.^ Prova de Optativa II
+prof. Adriano J. Holanda
+30/11/2016
+
+Sistemas de Informação, http://www.fafram.com.br/[FAFRAM]
+
+:last-update-label!: 
+
+== Questões
+
+1) `[2 ponto(s)]` Modifique o programa a seguir para achar o valor mínimo:
+
+[source,prolog]
+----
+max(X,Y,Y)  :-  X  =<  Y,!. 
+max(X,Y,X)  :-  X>Y.
+----
+
+2) `[3 ponto(s)]` Primeiro, explique o que o programa a seguir faz:
+
+[source,prolog]
+----
+classe(Numero,positivo)  :-  Numero  >  0. 
+classe(0,zero). 
+classe(Numero,negativo)  :-  Numero  <  0.
+----
+
+Aperfeiçoe o programa adicionando o operador _cut_ (!).
+
+3) `[4 ponto(s)]` Tomando como base a tabela-verdade em Prolog a seguir:
+
+[source,prolog]
+----
+and(X, Y, Z) :-
+    X == 0, Z is 0, !;
+    Y == 0, Z is 0, !.
+
+and(X, Y, Z) :-
+    X == 1, Y == 1, Z is 1.
+
+or(X, Y, Z) :-
+    X == 1, Z is 1, !;
+    Y == 1, Z is 1, !.
+
+or(X, Y, Z) :-
+    X == 0, Y == 0, Z is 0.
+
+not(X, Z) :-
+    X == 0, Z is 1, !;
+    X == 1, Z is 0, !.
+----
+
+Escreva as regras em Prolog para os seguintes circuitos:
+
+a) `D = (AC + ~AB)`
+
+b) `E = (AB + ~BC + C~D)`
+
+4) `[1 ponto(s)]` Desenhe o grafo formado pelos fatos a seguir:
+
+[source,prolog]
+----
+arco(1,2).
+arco(1,4).
+arco(1,3).
+arco(2,3).
+arco(2,5).
+arco(3,4).
+arco(3,5).
+arco(4,5).
+----
+
+////
+\question{6,5} A Figura~\ref{fig:abraao} mostra a genealogia de Abraão
+segundo o livro Gênesis da Bíblia. Os homens são representados pelos
+nós com formato quadrado enquanto que as mulheres pelo círculo. A
+direção das setas indicam o parentesco, por exemplo, Abraão e Hagar
+são os genitores de Ismael.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=.35]{arvore-abraao.png}
+  \caption[abraao]{Genealogia de Abraão segundo o livro Gênesis.}
+  \label{fig:abraao}
+\end{figure}
+
+Tomando como referência a Figura~\ref{fig:abraao} e usando as
+convenções de que {\tt genitor(X,Y)} significa que {\tt X} é genitor
+de {\tt Y} e {\tt sexo(A,masculino)} e {\tt sexo(B,feminino)} que
+significam que A é do sexo masculino e B do feminino, responda aos itens 
+a seguir:
+
+\begin{enumerate}[a)]
+\item \ponto{1} Represente os fatos da Figura~\ref{fig:abraao};
+\item \ponto{2} Represente as seguintes regras:
+  \begin{itemize}
+  \item {\tt irmão(X,Y)} - para responder se {\tt X} é do sexo masculino e irmão de {\tt Y}, 
+    não importando o sexo de {\tt Y};
+  \item {\tt irmã(X,Y)} - para responder se {\tt X} é do sexo feminino e irmã de {\tt Y}, 
+    não importando o sexo de {\tt Y};
+  \item {\tt descendente(X,Y)} - para verificar se {\tt X} é descendente de {\tt Y};
+  \end{itemize}
+\item \ponto{2,5} Usando os fatos e regras que você criou,
+  represente as seguintes questões:
+  \begin{itemize}
+  \item Quem são os descendentes diretos (filhos ou filhas) de Jacó?
+  \item Quem são os descendentes diretos de Jacó e Lia?
+  \item Quem são os descendentes diretos de Zilpa, Raquel e Bila?
+  \item Quem são os descendentes de Abraão?
+  \item Quem são os descendentes de Abraão e Raquel?
+  \end{itemize}
+\end{enumerate}
+
+\noindent Obs: Para serem irmãos ou irmãs basta {\tt X} e {\tt Y} terem uma
+mãe ou pai em comum.
+
+% TODO: Não user mais este exercício e fazer outro, se for o caso.
+% ele está em parte somente.
+\question{3,5} (Adaptado de ``Exercícios de Programação em Lógica'' de
+Luís Paulo Rei) Considere a seguinte base de fatos exemplo:
+
+\lstset{language=prolog,basicstyle=\small,numberstyle=\tiny}
+\begin{center}
+\begin{lstlisting}
+  aluno(joao, sistemas_operacionais). 
+  aluno(maria, sistemas_operacionais).  
+  aluno(joel, engenharia_de_software). 
+  aluno(joel, estruturas_de_dados).  
+  frequenta(joao, programacao).
+  frequenta(maria, programacao).  
+  frequenta(joel, prolog). 
+  professor(carlos, sistemas_operacionais). 
+  professor(ana_paula, estruturas_de_dados).  
+  professor(pedro, engenharia_de_software). 
+  funcionario(pedro, prolog). 
+  funcionario(ana_paula, programacao).  
+  funcionario(carlos, programacao). 
+\end{lstlisting}
+\end{center}
+
+Escreva as seguintes regras em prolog: 
+
+\begin{enumerate}[a)]
+\item \ponto{1} Quem são os alunos do
+professor X? 
+\item \ponto{1} Quem são as pessoas da universidade X? (alunos ou
+docentes) 
+\item \ponto{1,5} Quem é colega de quem? Se aluno: é colega se for colega de
+disciplina ou colega de curso ou colega de universidade. Se professor:
+se for professor da mesma universidade.
+\end{enumerate}
+
+////

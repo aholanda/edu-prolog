@@ -1,0 +1,148 @@
+:sectnums:
+
+== Algumas Aplicações
+
+Para verificar algumas aplicações em Prolog, necessitaremos dos arquivos:
+
+* {bookurl}/mdc.pro[mdc.pro],
+* {bookurl}/circuito.pro[circuito.pro],
+* {bookurl}/digrafo.pro[digrafo.pro],
+* {bookurl}/mdc.pro[mapa.pro].
+
+Nas seções seguintes são mostradas algumas aplicações de Prolog em
+estruturas de dados e algoritmos clássicos em computação.
+
+=== Máximo Divisor Comum (MDC)
+
+Para encontrar o *máximo* *divisor* *comum*, iremos implementar o
+algoritmo de Euclides em Prolog. O algoritmo de Euclides tem diversas
+aplicações, por exemplo, como parte de algoritmos criptográficos como o
+https://pt.wikipedia.org/wiki/RSA[RSA].
+
+O predicado `mdc` recebe dois parâmetros e vai subtraindo o maior
+valor do menor até que sejam iguais. Se o parâmetro fornecido for
+negativo, ele é convertido para positivo, se for igual a zero, um erro
+é lançado.
+
+[source,prolog]
+----
+include::src/mdc.pro[]
+----
+
+=== Análise de Circuitos Lógicos
+
+// baseado em https://www.cs.hmc.edu/~keller/courses/cs60/slides/18.29.html
+
+Podemos analisar um circuito lógico usando Prolog. No exemplo a
+seguir, analisamos o circuito `D = \~(A~B + BC)`. As tabelas-verdade das
+portas _AND_, _OR_ e _NOT_ são definidas nos predicados `and`, `or` e
+`not`, respectivamente.
+
+[source,prolog]
+----
+include::src/circuito.pro[]
+----
+
+=== Grafos
+// fonte: connected(X,Y) :- edge(X,Y) ; edge(Y,X).
+// TODO: adicionar path, travel and shortest path
+
+Considere o seguinte grafo conectado direcionado (dígrafo):
+
+[.center]
+--
+[[img-digrafo]]
+.Grafo conectado direcionado.
+image::digrafo.svg[Grafo,150,align="center"]
+--
+
+Usando Prolog, podemos representar sua estrutura e alguns algoritmos
+pelos seguintes fatos e regras:
+
+[source,prolog]
+----
+include::src/digrafo.pro[]
+----
+
+A variável `V` mantém uma lista de vértices já visitados e o predicado
+`\+ member(X,V)`, que significa que `X` não (`\+`) não pode ser membro
+da lista dos vértices visitados `V`, garante que se houver ciclo, a
+avaliação não entre em _loop_ infinito.
+
+=== Coloração de Mapas
+
+Soluções para um problema de colocação de mapas, onde duas regiões
+adjacentes não podem ter a mesma cor, podem ser testadas usando
+Prolog. Por exemplo, se quisermos desenhar o mapa da região nordeste,
+sem repetição de cores para estados vizinhos, podemos testar soluções
+para o problema, conforme mostra o código a seguir:
+
+[source,prolog]
+----
+include::src/mapa.pro[]
+----
+
+O predicado `vizinho` testa cores diferentes (`X \== Y`) para dois
+estados vizinhos. Quando atribuída uma cor, esta cor é testado usada
+posteriormente, quando a sigla do estado aparecer de novo. Se não
+houver maneira de usar cores diferentes, `X \== Y` retornará `false`.
+
+////
+
+=== A Peneira de Eratosthenes
+
+A peneira (_sieve_) de Eratosthenes é usada para achar os números
+*primos* menores do que um número inteiro N. Este método funciona da
+seguinte forma:
+
+1. Coloque todos os números entre 2 e N na "peneira".
+2. Selecione e remova o menor número restante na "peneira".
+3. Inclua este número na lista de primos.
+4. Remova todos os números múltiplos deste número da "peneira".
+5. Se a "peneira" não estiver vazia, repita os passos de 2 a 5.
+
+Para transformar estas regras em Prolog, definimos um predicado
+`inteiros` para gerar a lista de inteiros de `2` até `N`. O predicado
+`peneirar` examina cada elemento da lista de inteiros ("peneira"), e o
+predicado `remover` retirar os múltiplos selecionados da "peneira". O
+predicado `primos` é definido de forma que o objetivo `primos(L, N)`
+instancie a lista de primos entre `2` e `N` inclusive.
+
+[source,prolog]
+----
+include::src/sieve.pro[]
+----
+
+////
+
+:sectnums!:
+
+=== Exercícios
+
+1) Para o grafo direcionado (dígrafo), implementar, em Prolog, a
+https://pt.wikipedia.org/wiki/Busca_em_profundidade[busca em
+profundidade] e a https://pt.wikipedia.org/wiki/Busca_em_largura[busca
+em largura].
+
+2) Implementar, em Prolog, o
+https://pt.wikipedia.org/wiki/Algoritmo_de_Dijkstra[algoritmo de
+Dijkstra] que traça o caminho mais curto entre dois vértices.
+ O algoritmo a ser implementado deve utilizar um dígrafo com
+ arcos com pesos não-negativos.
+
+3) *Faça um programa Prolog que analisa o circuito somador de 1 bit
+onde `S = A xor B` é a soma dos bits e `T = AB` é o bit de transporte.
+
+=== Recursos Adicionais
+
+Os artigos a seguir descrevem algumas aplicações de Prolog:
+
+1. Adam Lally; Paul
+Fodor. http://www.cs.nmsu.edu/ALP/2011/03/natural-language-processing-with-prolog-in-the-ibm-watson-system/[Natural
+Language Processing With Prolog in the IBM Watson System]. Association
+for Logic Programming, March 2011.
+
+2. Al
+Roth. http://www.drdobbs.com/parallel/the-practical-application-of-prolog/184405220[The
+Practical Application of Prolog]. Dr. Dobb's, December 2002.
+

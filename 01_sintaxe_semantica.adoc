@@ -1,0 +1,248 @@
+:sectnums:
+
+== Sintaxe e Semântica
+
+Para aprender a sintaxe e semântica básicas de Prolog, necessitaremos
+de dois arquivos:
+
+1. {bookurl}/basecon01.pro[basecon01.pro];
+2. {bookurl}/basecon02.pro[basecon02.pro].
+
+=== Fatos
+
+Vamos supor que queiramos expressar o fato de que "Daniel gosta da
+Alice". Este fato possui dois objetos, "Daniel" e "Alice", e um
+relacionamento chamado "gosta de". Em Prolog, escrevemos os fatos
+utilizando um forma padrão:
+
+[source,prolog]
+----
+gosta(daniel, alice).
+----
+
+Vamos destacar os seguintes elementos da sintaxe:
+
+* Os nomes de todos relacionamentos e objetos devem começar com letras minúsculas.
+Por exemplo, `gosta`, `daniel` e `alice`.
+
+* O relacionamento é escrito primeiro, depois os objetos são escritos
+separados por virgula e circundados por parênteses.
+
+* O caractere ponto "." deve vir no final do fato.
+
+Alguns exemplos de fatos com a interpretação como comentários após
+o caractere porcentagem "%":
+
+[source,prolog]
+----
+valioso(ouro).				% O ouro é valioso.
+fêmea(marina).				% Marina é fêmea.
+possui(marina,ouro).			% Marina possui ouro.
+pai(paulo,camila).			% Paulo é o pai de Camila
+emprestou(pedro,livro,rebeca).		% Pedro emprestou o livro para Rebeca.
+----
+
+=== Questões
+
+Uma vez que temos alguns fatos, podemos levantar questões sobre
+eles. Em Prolog, uma questão se parece com um fato, exceto por um
+símbolo especial antes da questão. O símbolo é escrito com um ponto
+de interrogação seguido de um hífen. Por exemplo, a questão
+
+[source,prolog]
+----
+?- possui(marina,livro)
+----
+
+que pode ser interpretada como: "Marina possui um livro?" ou "É um
+fato que Maria possui um livro?". Não estamos perguntando se Marina
+possui todos os livros ou livros em geral, mas se possui algum livro
+em particular.
+
+As questões são procuradas em um banco de dados, pelos fatos que
+unificam o fato na questão. Dois fatos são unificados se seus
+predicados são os mesmos, e seus correspondentes argumentos são os
+mesmos, obedecendo a sequência de listagem. Se um fato que unifica com
+a questão existe no banco de dados, o sistema Prolog escreve `true`,
+caso contrário escreve `false`.
+
+Vamos considerar o seguinte banco de dados:
+
+[source,prolog]
+----
+include::{srcdir}/basecon01.pro[]
+----
+
+Se o arquivo contendo os fatos chamar {bookurl}/basecon01.pro[basecon01.pro],
+ no ambiente Prolog, o banco de dados é carregado usando o comando
+
+[source,prolog]
+----
+?- consult('basecon01.pro').
+----
+
+Então podemos elaborar questões a respeito dos fatos, tais como:
+
+
+[source,prolog]
+----
+?- gosta(paulo,dinheiro).
+false.
+
+?- gosta(paulo,pedro).
+false.
+
+?- gosta(marina,livro).
+true.
+----
+
+Quando um fato não existe no banco de dados, o Prolog imprime uma mensagem
+de erro como no exemplo a seguir:
+
+[source,prolog]
+----
+?- adora(marina,chocolate).
+ERROR: toplevel: Undefined procedure: adora/2 (DWIM could not correct goal)
+----
+
+A mensagem de erro depende do sistema utilizado, em nosso caso, é a
+mensagem padrão do {swiProlog}.
+
+=== Variáveis
+
+Se quisermos perguntas as coisas ou pessoas que "Paulo" gosta, é
+cansativo ficar perguntando "Paulo gosta de dinheiro?" ou "Paulo gosta
+da Marina?". Podemos perguntar para o Prolog se "Paulo gosta de X",
+onde `X` é uma variável que deve começar com letra maiúscula, que será
+substituída pelas coisas ou pessoas que "Paulo" gosta. Por exemplo,
+
+[source,prolog]
+----
+?- gosta(paulo,X).
+X = peixe ;
+X = marina.
+
+----
+
+Após a questão `gosta(paulo,X).` aparece a reposta `X = peixe `,
+pressionamos a tecla "`;`" para continuarmos com a resposta, que é encerrada
+após o último fato com "`.`".
+
+Podemos também fazer peguntas do tipo "Há pessoas que gostam de
+livro?", onde a variável substitui o primeiro elemento do predicado
+`gosta`. Por exemplo;
+
+[source,prolog]
+----
+?- gosta(X,livro).
+X = marina ;
+X = pedro.
+----
+
+=== Conjunção
+
+Quando queremos fazer perguntas mais complexas, tais como, "Paulo e
+Marina gostam um do outro?", utilizamos a conjunção para combinar os
+fatos e obter a resposta. Por exemplo, para saber se Paulo e Marina
+gostam um do outro, é equivalente a questionarmos dois fatos:
+ "Paulo gosta da Marina?" *e* "Marina gosta de Paulo?". A conjunção
+ *e* é expressada pelo caractere vírgula `,`, como no exemplo a seguir:
+
+[source,prolog]
+----
+?- gosta(paulo,marina), gosta(marina,paulo).
+false.
+
+----
+
+As variáveis também podem ser usadas na conjunção, se quisermos
+saber algo em comum que Marina e Pedro gostam, podemos usar
+a variável `X`, da seguinte forma:
+
+[source,prolog]
+----
+?- gosta(pedro,X), gosta(marina,X).
+X = livro ;
+false.
+
+----
+
+A resposta `false.` aparece após pressionarmos `;` para a primeira
+resposta `X = livro ` e indica que não há mais objetos em comum.
+
+=== Regras
+
+Uma regra é uma expressão geral sobre os objetos e seus
+relacionamentos. A partir das regras podemos verificar a validade de
+outros fatos produzidos pela conjunção de fatos já existentes no banco
+de dados. Vamos tomar como exemplo os seguintes fatos armazenados no
+arquivo {bookurl}/basecon02.pro[basecon02.pro]:
+
+[source,prolog]
+----
+include::{srcdir}/basecon02.pro[]
+----
+
+O fato `homem(Y)` indica que `Y` é do sexo masculino, `mulher(X)`
+indica que `X` é do sexo feminino, e `pais(Z,X,Y)` representa o fato
+de que `Z` tem como mãe `X` e pai `Z`. Se quisermos criar um regra
+chamada `irmã(X,Y)` para verificar se `X` é irmã de `Y`, podemos
+utilizar os fatos já apresentados, fazendo a conjunção das seguintes
+regras:
+
+1. `X` é do sexo feminino;
+2. `X` tem como mãe `M` e pai `P`;
+3. `X` tem a mesma mãe e mesmo pai que `Y`.
+
+Esta regra Prolog foi escrita e nomeada `irmã(X,Y)`, onde `:-` indica
+o início da regra, que formada por uma série de conjunções e termina
+com o caractere ponto `.`, ao executar a regra podemos inferir mais
+fatos não descritos como atômicos. Se executarmos
+
+[source,prolog]
+----
+?- irmã(alice,eduardo).
+true.
+
+----
+
+Prolog substitui os fatos que formam a regra `irmã` por:
+`mulher(alice),pais(alice,M,P),pais(eduardo,M,P)`. Como Alice é do
+sexo feminino e a mãe `M` e pai `P` de Alice e Eduardo são iguais, a
+regra retorna o valor verdadeiro, indicando que Alice é `irmã` de
+Eduardo.
+
+Porém, se testarmos
+
+[source,prolog]
+----
+?- irmã(eduardo,alice).
+false.
+
+----
+
+A regra retorna falso, pois apesar de Alice e Eduardo serem irmãos, o
+primeiro fato da regra, `?- mulher(eduardo)`, não é satisfeito.
+
+
+:sectnums!:
+
+=== Exercícios
+
+1) Converta as seguintes sentenças para fatos para a linguagem Prolog e carregue-os como banco de dados:
+
+	a. "Camila é filha de Antônio e Raquel";
+	b. "Ronaldo é filho de Antônio e Raquel";
+	c. "Antônio é filho de Manoel e Aparecida";
+	d. "Rita é filha de Manoel e Aparecida".
+
+2) Com base no exercício anterior, crie as seguintes regras:
+
+       a. `é_mãe(X) % X é mãe`;
+       b. `é_pai(X) % X é pai`;
+       c. `é_filho(X) % X é filho`;
+       d. `irmão(X,Y) % X é irmão de Y, ambos podem ser masculino ou feminino`;
+       e. `avós_paternos(X,Y,Z) % Y é avô de X e Z é avó, ambos por parte de pai`;
+       f. `avós_maternos(X,Y,Z) % Y é avô de X e Z é avó, ambos por parte de mãe`;
+
+E faça alguns testes, usando o sistema Prolog. Solução: {bookurl}/ex01_0x.pro[ex01_0x.pro].

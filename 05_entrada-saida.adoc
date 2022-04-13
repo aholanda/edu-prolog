@@ -1,0 +1,33 @@
+:sectnums:
+
+== Entrada e Saída
+
+Os principais predicados para manipulação da entrada e saída de dados
+são listados a seguir:
+
+* `seeing(X)`: Retorna verdadeiro se `X` está vinculado à atual porta de leitura.
+
+* `see(X)`: Abre porta de entrada para o arquivo vinculado em
+`X`. Comandos subsequentes de `read` são lidos desta porta.
+
+* `seen`: Fecha qualquer entrada (porta ou arquivo), e faz `read`
+  esperar pela entrada do usuário.
+
+* `read(X)`: Lê a expressão Prolog da porta atual, armazenando o valor
+  em `X`.
+
+* `telling(X)`: Retorna verdadeiro se `X` está vinculado à porta de
+  saída atual.
+
+* `tell(X)`: Abre porta para a saída do arquivo vinculado a `X`.
+Comandos subsequentes de `write` ou `dispĺay` são enviados para este
+arquivo.
+
+* `told`: Fecha qualquer saída (porta ou arquivo) e reverte o controle
+  para a saída padrão.
+
+* `write(E)`: escreve a expressão armazenada em `E` na porta de saída atual.
+
+* `nl`: próxima linha.
+
+* `tab(N)`: Escreve `N` espaços na porta de saída atual.

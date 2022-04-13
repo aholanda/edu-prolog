@@ -1,0 +1,21 @@
+digraph recursion {
+	size ="4,4";
+	node [shape=box];
+	a [label="?- ancestral(paulo,nelson)."];
+	b [fill="red",label="?- pai(paulo,nelson).", style=filled, color="pink"];
+	c [label="?- pai(paulo,Z),ancestral(Z,nelson)."];
+	d [label="?- ancestral(pedro,nelson)."];
+	e [label="?- pai(pedro,nelson).", style=filled, color="pink"];
+	f [label="?- pai(pedro,Z),ancestral(Z,nelson)."];
+	g [label="?- ancestral(rui,nelson)."];
+	h [label="?- pai(rui,nelson).", style=filled, color="aquamarine"];
+
+	a -> b;
+	a -> c;
+	c -> d [label="Z=pedro"];
+	d -> e;
+	d-> f;
+	f -> g [label="Z=rui"];
+	g -> h;
+}
+	

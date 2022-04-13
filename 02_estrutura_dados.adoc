@@ -1,0 +1,95 @@
+
+:sectnums:
+
+== Estruturas de Dados
+
+Para aprender a sintaxe e semântica básicas de Prolog, necessitaremos
+do arquivo:
+
+1. {bookurl}/listas.pro[listas.pro].
+
+
+=== Árvores
+
+Estruturas mais complexas podem ser representadas usando uma
+árvore. Por exemplo, se quisermos representar sentenças
+simples do português, que possuem a estrutura "verbo+predicado",
+onde o predicado deve estar na categoria "verbo+objeto", podemos
+usar a seguinte sintaxe em Prolog:
+
+[source,prolog]
+----
+oração(sujeito(X), predicado(verbo(Y), objeto(Z))).
+----
+
+Portanto se quisermos representar a oração "Maria gosta de sorvete",
+obteríamos:
+
+[source,prolog]
+----
+oração(sujeito(maria), predicado(verbo(gosta_de), objeto(sorvete))).
+----
+
+A Figura a seguir apresenta o resultado gráfico da aplicação da
+estrutura Prolog para representar uma oração simples em Português:
+
+[.center]
+--
+[[img-oracao]]
+.Árvore formada pela oração "Maria gosta de sorvete".
+image::oracao.svg[align="center"]
+--
+
+=== Listas
+
+Uma lista é uma sequência ordenada de elementos de tamanho
+arbitrário. Em Prolog, uma lista pode ser declarada da seguinte
+forma:
+
+[source,prolog]
+----
+[a, b, c, d]
+----
+
+O colchetes delimita a lista e a vírgula separa os elementos. Em Prolog,
+quaisquer objetos válidos podem ser incluídos em uma lista. Assim sendo,
+as seguintes listas são válidas:
+
+[source,prolog]
+----
+[a, X, Y, Z]
+[[a1, a2], [b1, b2], [c1, c2]]
+[[X,Y], [Y,Z], pred([a,b,c],[a,b,d,e,f],_), m, n, W]
+----
+
+As listas podem ser manipuladas usando os predicados `Head` e `Tail`.
+`Head` retorna o primeiro elemento da lista e `Tail` retorna todos os
+elementos da lista com exceção do primeiro. Há uma notação especial e
+implícita, `[H|T]`, para a execução dos predicados. No exemplo,
+
+[source,prolog]
+----
+include::src/listas.pro[]
+
+?- p([X|Y]).
+X = 1,
+Y = [2, 3, 4].
+
+?- q([X|Y]).
+X = [3, 4, 5, 6],
+Y = [7, 9].
+
+?- q([[_|Y],_,_]).
+Y = [4, 5, 6].
+
+----
+
+`X` recebe o primeiro elemento da lista e `Y` o restante, mesmo este
+elemento sendo outra lista. Listas dentro de listas são manipuladas da
+mesma forma, tomando cuidado com o balanceamento dos colchetes.
+
+Normalmente, os sistemas Prolog fornecem uma biblioteca contendo
+predicados para manipulação de listas. A biblioteca do SWI-Prolog
+pode ser encontrada em http://www.swi-prolog.org/pldoc/doc/swi/library/lists.pro.
+
+
